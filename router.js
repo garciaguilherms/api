@@ -1,31 +1,37 @@
 const express = require('express');
 const router = express.Router();
+const albumController = require('./controllers/albumController');
+const artistController = require('./controllers/artistController');
+const songController = require('./controllers/songController');
 
-router.get('/albums', (req, res) => {
-    const offset = parseInt(req.query['page[offset]']) || 0;
-    const size = parseInt(req.query['page[size]']) || 10;
-    const filters = req.query.filter || {};
+// Albums 
+router.route('/albums')
+  .get(albumController.getAll)
+  .post(albumController.createAlbum);
 
-    const matchedAlbums = (album, filterName, filterValue) => {
-        return album[filterName] === filterValue;
-    }
+router.route('/albums/:id')
+  .get(albumController.getById)
+  .delete(albumController.deleteById)
+  .patch(albumController.updateAlbum);
 
-    const filteredAlbums = albums.filter(album => {
-        return Object.keys(filters).every(filterName => {
-            return matchedAlbums(album, filterName, filters[filterName]);
-        });
-    });
+// Artists
+router.route('/artists')
+  .get(artistController.getAll)
+  .post(artistController.createArtist);
 
-    const paginatedAlbums = filteredAlbums.slice(offset, offset + size);
+router.route('/artists/:id')
+  .get(artistController.getById)
+  .delete(artistController.deleteById)
+  .patch(artistController.updateArtist);
 
-    res.status(200).json(paginatedAlbums);
-});
+// Songs
+router.route('/songs')
+  .get(songController.getAll)
+  .post(songController.createSong);
 
-router.post('/albums', (req, res) => {
-    const album = req.body;
-    albums.push(album);
-    res.status(201).json(album);
-})
+router.route('/songs/:id')
+  .get(songController.getById)
+  .delete(songController.deleteById)
+  .patch(songController.updateSong);
 
 module.exports = router;
-

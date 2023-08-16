@@ -1,0 +1,60 @@
+/*!40101 SET NAMES utf8 */;
+/*!40014 SET FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET SQL_NOTES=0 */;
+DROP TABLE IF EXISTS album_songs;
+CREATE TABLE `album_songs` (
+  `album_id` int NOT NULL,
+  `song_id` int NOT NULL,
+  KEY `album_id` (`album_id`),
+  KEY `song_id` (`song_id`),
+  CONSTRAINT `album_songs_ibfk_1` FOREIGN KEY (`album_id`) REFERENCES `albums` (`id`),
+  CONSTRAINT `album_songs_ibfk_2` FOREIGN KEY (`song_id`) REFERENCES `songs` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+DROP TABLE IF EXISTS albums;
+CREATE TABLE `albums` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `artist_id` int NOT NULL,
+  `album_name` varchar(255) NOT NULL,
+  `release_year` int NOT NULL,
+  `number_of_songs` int NOT NULL,
+  `record_label` varchar(255) NOT NULL,
+  `genre` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `artist_id` (`artist_id`),
+  CONSTRAINT `albums_ibfk_1` FOREIGN KEY (`artist_id`) REFERENCES `artists` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+DROP TABLE IF EXISTS artists;
+CREATE TABLE `artists` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `birth_year` int NOT NULL,
+  `genre` varchar(255) NOT NULL,
+  `awards` int NOT NULL,
+  `hometown` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+DROP TABLE IF EXISTS songs;
+CREATE TABLE `songs` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `duration` int NOT NULL,
+  `genre` varchar(255) NOT NULL,
+  `album_id` int NOT NULL,
+  `artist_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `album_id` (`album_id`),
+  KEY `artist_id` (`artist_id`),
+  CONSTRAINT `songs_ibfk_1` FOREIGN KEY (`album_id`) REFERENCES `albums` (`id`),
+  CONSTRAINT `songs_ibfk_2` FOREIGN KEY (`artist_id`) REFERENCES `artists` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO album_songs(album_id,song_id) VALUES('1','1'),('1','2'),('2','3'),('2','4'),('3','5'),('6','11'),('6','12'),('7','13'),('7','14'),('8','15'),('16','16'),('16','17'),('17','18'),('17','19'),('18','20');
+
+INSERT INTO albums(id,artist_id,album_name,release_year,number_of_songs,record_label,genre) VALUES('1','1','\'19\'','2008','12','\'XL Recordings\'','\'Pop\''),('2','1','\'21\'','2011','11','\'XL Recordings\'','\'Pop\''),('3','2','\'Dangerously in Love\'','2003','15','\'Columbia Records\'','\'R&B\''),('4','2','\'B\\\'Day\'','2006','10','\'Columbia Records\'','\'R&B\''),('5','3','\'Doo-Wops & Hooligans\'','2010','10','\'Atlantic Records\'','\'Pop\''),('6','6','\'The College Dropout\'','2004','21','\'Roc-A-Fella Records\'','\'Hip hop\''),('7','6','\'Late Registration\'','2005','21','\'Roc-A-Fella Records\'','\'Hip hop\''),('8','7','\'The Fame\'','2008','14','\'Interscope Records\'','\'Pop\''),('9','7','\'Born This Way\'','2011','14','\'Interscope Records\'','\'Pop\''),('10','8','\'Music of the Sun\'','2005','12','\'Def Jam Recordings\'','\'Pop\''),('11','6','\'The College Dropout\'','2004','21','\'Roc-A-Fella Records\'','\'Hip hop\''),('12','6','\'Late Registration\'','2005','21','\'Roc-A-Fella Records\'','\'Hip hop\''),('13','7','\'The Fame\'','2008','14','\'Interscope Records\'','\'Pop\''),('14','7','\'Born This Way\'','2011','14','\'Interscope Records\'','\'Pop\''),('15','8','\'Music of the Sun\'','2005','12','\'Def Jam Recordings\'','\'Pop\''),('16','11','\'Yours Truly\'','2013','12','\'Republic Records\'','\'Pop\''),('17','11','\'My Everything\'','2014','12','\'Republic Records\'','\'Pop\''),('18','12','\'When We All Fall Asleep, Where Do We Go?\'','2019','14','\'Interscope Records\'','\'Pop\''),('19','12','\'Happier Than Ever\'','2021','16','\'Interscope Records\'','\'Pop\''),('20','13','\'Dua Lipa\'','2017','17','\'Warner Bros. Records\'','\'Pop\'');
+
+INSERT INTO artists(id,name,birth_year,genre,awards,hometown) VALUES('1','\'Adele\'','1988','\'Pop\'','15','\'Tottenham\''),('2','\'Beyoncé\'','1981','\'R&B\'','28','\'Houston\''),('3','\'Bruno Mars\'','1985','\'Pop\'','11','\'Honolulu\''),('4','\'Drake\'','1986','\'Hip hop\'','4','\'Toronto\''),('5','\'Ed Sheeran\'','1991','\'Pop\'','4','\'Halifax\''),('6','\'Kanye West\'','1977','\'Hip hop\'','21','\'Atlanta\''),('7','\'Lady Gaga\'','1986','\'Pop\'','12','\'New York City\''),('8','\'Rihanna\'','1988','\'Pop\'','9','\'Saint Michael\''),('9','\'Taylor Swift\'','1989','\'Pop\'','10','\'Reading\''),('10','\'The Weeknd\'','1990','\'R&B\'','3','\'Toronto\''),('11','\'Ariana Grande\'','1993','\'Pop\'','2','\'Boca Raton\''),('12','\'Billie Eilish\'','2001','\'Pop\'','7','\'Los Angeles\''),('13','\'Dua Lipa\'','1995','\'Pop\'','3','\'London\''),('14','\'Harry Styles\'','1994','\'Pop\'','1','\'Redditch\''),('15','\'Justin Bieber\'','1994','\'Pop\'','20','\'London\''),('16','\'\\\'Travis Scott\\\'\'','1992','\'\\\'Hip hop\\\'\'','3','\'\\\'Houston\\\'\''),('17','\'\\\'Post Malone\\\'\'','1995','\'\\\'Hip hop\\\'\'','8','\'\\\'Syracuse\\\'\''),('18','\'\\\'BTS\\\'\'','2013','\'\\\'K-pop\\\'\'','136','\'\\\'Seoul\\\'\''),('19','\'\\\'Cardi B\\\'\'','1992','\'\\\'Hip hop\\\'\'','4','\'\\\'The Bronx\\\'\''),('20','\'\\\'Megan Thee Stallion\\\'\'','1995','\'\\\'Hip hop\\\'\'','5','\'\\\'Houston\\\'\''),('21','\'\\\'Lizzo\\\'\'','1988','\'\\\'Pop\\\'\'','3','\'\\\'Detroit\\\'\''),('22','\'\\\'Shawn Mendes\\\'\'','1998','\'\\\'Pop\\\'\'','12','\'\\\'Pickering\\\'\''),('23','\'\\\'Camila Cabello\\\'\'','1997','\'\\\'Pop\\\'\'','7','\'\\\'Havana\\\'\''),('24','\'\\\'Alicia Keys\\\'\'','1981','\'\\\'R&B\\\'\'','15','\'\\\'New York City\\\'\''),('25','\'\\\'Sam Smith\\\'\'','1992','\'\\\'Pop\\\'\'','4','\'\\\'London\\\'\'');
+INSERT INTO songs(id,title,duration,genre,album_id,artist_id) VALUES('1','\'Chasing Pavements\'','2190000','\'Pop\'','1','1'),('2','\'Make You Feel My Love\'','1960000','\'Pop\'','1','1'),('3','\'Rolling in the Deep\'','2280000','\'Pop\'','2','1'),('4','\'Someone Like You\'','2850000','\'Pop\'','2','1'),('5','\'Crazy in Love (feat. Jay-Z)\'','2360000','\'R&B\'','3','2'),('6','\'Through the Wire\'','2590000','\'Hip hop\'','6','6'),('7','\'Jesus Walks\'','1870000','\'Hip hop\'','6','6'),('8','\'Gold Digger (feat. Jamie Foxx)\'','2070000','\'Hip hop\'','7','6'),('9','\'Touch the Sky (feat. Lupe Fiasco)\'','2360000','\'Hip hop\'','7','6'),('10','\'Just Dance (feat. Colby O\\\'Donis)\'','2420000','\'Pop\'','8','7'),('11','\'Through the Wire\'','2590000','\'Hip hop\'','6','6'),('12','\'Jesus Walks\'','1870000','\'Hip hop\'','6','6'),('13','\'Gold Digger (feat. Jamie Foxx)\'','2070000','\'Hip hop\'','7','6'),('14','\'Touch the Sky (feat. Lupe Fiasco)\'','2360000','\'Hip hop\'','7','6'),('15','\'Just Dance (feat. Colby O\\\'Donis)\'','2420000','\'Pop\'','8','7'),('16','\'The Way (feat. Mac Miller)\'','2310000','\'Pop\'','16','11'),('17','\'Baby I\'','2020000','\'Pop\'','16','11'),('18','\'Problem (feat. Iggy Azalea)\'','1980000','\'Pop\'','17','11'),('19','\'Break Free (feat. Zedd)\'','2300000','\'Pop\'','17','11'),('20','\'Bad Guy\'','1940000','\'Pop\'','18','12');
